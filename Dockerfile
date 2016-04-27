@@ -1,4 +1,4 @@
-FROM mhart/alpine-node:6.0.0
+FROM mhart/alpine-node:base-0.12.11
 
 ##
 ## S6 Overlay && go-dnsmasq
