@@ -1,0 +1,80 @@
+#!/usr/bin/perl
+
+# eg upgrade.perl 6.0.0 5.11.0 4.4.3 0.12.13
+
+# clean start
+system("git", "checkout", "master");
+system("git", "reset", "--hard");
+
+my @types = ("", "base-");
+
+foreach my $rootversion (@ARGV) {
+  foreach my $buildtype (@types) {
+    my $version="${buildtype}${rootversion}";
+
+    system("git", "checkout", "-b", $version);
+
+    system("sed", "-i", "", "s|alpine.node:6\.0\.0|alpine-node:${version}|", "Dockerfile");
+    system("git", "commit", "-a", "-m", "Upgrade to ${version}");
+
+    my @tags = get_tags($rootversion, $buildtype);
+
+    foreach my $tag (@tags) {
+      system("git", "tag", "-a", $tag, "-m", "Upgrade to ${version}", "-f");
+    }
+
+    system("git", "checkout", "master");
+    system("git", "branch", "-d", "-f", $version);
+
+    print "${version}\n";
+  }
+}
+
+sub get_tags {
+  local $rootversion = shift;
+  local $buildtype = shift;
+
+  local @existing_tags = `git tag | grep -v 'latest\|base'`;
+
+  $rootversion =~ /^(\d+)\.(\d+)/;
+  local $major = $1;
+  local $minor = $2;
+  local $patch = $3;
+
+  local $is_latest = 1;
+  local $is_new_major = 1;
+  local $is_new_minor = 1;
+
+  local @new_tags = ("${buildtype}${rootversion}");
+
+  foreach my $t (@existing_tags) {
+    $t =~ /^(\d+)\.(\d+)\.(\d+)/;
+    local $existing_major = $1;
+    local $existing_minor = $2;
+    local $existing_patch = $3;
+
+    # test version here
+    if ($major < $existing_major || $minor < $existing_minor || $patch < $existing_patch) {
+      $is_latest = 0;
+    }
+    if ($major == $existing_major && ($minor < $existing_minor || $patch < $existing_patch)) {
+      $is_new_major = 0;
+    }
+    if ($major == $existing_major && $minor == $existing_minor && $patch < $existing_patch) {
+      $is_new_minor = 0;
+    }
+
+  }
+
+  if ($is_latest) {
+    push @new_tags, "${buildtype}latest";
+  }
+  if ($is_new_major) {
+    push @new_tags, "${buildtype}${major}";
+  }
+  if ($is_new_minor) {
+    push @new_tags, "${buildtype}${major}.${minor}";
+  }
+
+  return @new_tags;
+}
