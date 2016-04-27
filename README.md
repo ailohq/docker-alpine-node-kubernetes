@@ -3,29 +3,15 @@ Minimal Node.js Docker Images built on Alpine Linux with support for DNS service
 
 ---------------------------------------------------------
 
-A port of [mhart/alpine-node](https://hub.docker.com/r/mhart/alpine-node/) to
-use [janeczku/alpine-kubernetes](https://hub.docker.com/r/janeczku/alpine-kubernetes/)
-as its base image
-to provide DNS support for  micro-services containers in Kubernetes, Consol,
-Tutum or other Docker cluster environments that use DNS-based service discovery
+A port of [janeczku/alpine-kubernetes](https://hub.docker.com/r/janeczku/alpine-kubernetes/) to use [mhart/alpine-node](https://hub.docker.com/r/mhart/alpine-node/) as its base image
+to provide DNS support for  micro-services containers in Kubernetes, Console,
+Docker Cloud or other Docker cluster environments that use DNS-based service discovery
 and rely on the containers being able to use the search domains from resolv.conf
 for resolving service names.
 
 [![Docker Repository on Quay](https://quay.io/repository/trunk/alpine-node-kubernetes/status "Docker Repository on Quay")](https://quay.io/repository/trunk/alpine-node-kubernetes)
 
 Versions v5.1.0, v4.2.2, v0.12.7 – built on [Alpine Linux](https://alpinelinux.org/).
-
-All versions use the one [quay.io/trunk/docker-alpine-node-kubernetes](https://quay.io/repository/trunk/alpine-node-kubernetes/)
-repository, but each version aligns with the following tags (ie, `trunk/docker-alpine-node-kubernetes:<tag>`, size is full/compressed):
-
-- Full install built with npm (2.14.9 unless specified):
-  - `latest`, `5`, `5.1`, `5.1.0` – 42.34 MB/15.9 MB (npm 3.4.0)
-  - `4`, `4.2`, `4.2.2` – ##.## MB / 15.7 MB
-  - `0.12`, `0.12.7` – ##.## MB / 14.7 MB
-- Base install with node built as a static binary with no npm:
-  - `base`, `base-5`, `base-5.1`, `base-5.1.0` – ##.## MB / 13.4 MB
-  - `base-4`, `base-4.2`, `base-4.2.2` – ##.## MB / 13.3 MB
-  - `base-0.12`, `base-0.12.7` – ##.## MB / 12.2 MB
 
 Example
 -------
@@ -53,7 +39,7 @@ then you don't need an `npm install` step in your Dockerfile and you don't need
 `base*` images.
 
 It is recommended you setup you process to run using [s6](http://skarnet.org/software/s6/)
-as s6 is using `ENTRYPOINT` to run its `init`. Example usage can be found in 
+as s6 is using `ENTRYPOINT` to run its `init`. Example usage can be found in
 [janeczku/alpine-kubernetes](https://hub.docker.com/r/janeczku/alpine-kubernetes/).
 
     FROM quay.io/trunk/alpine-node-kubernetes:base
@@ -61,12 +47,12 @@ as s6 is using `ENTRYPOINT` to run its `init`. Example usage can be found in
     # FROM quay.io/trunk/alpine-node-kubernetes
 
     WORKDIR /src
-    
+
     # Copy the s6 service.d file(s)
     # S6 requires and executable (755) runfile to be deployed to:
     # /etc/services.d/{APPLICATION NAME}/run
     COPY rootfs /
-    
+
     # Copy the application
     COPY bin ./bin
 
