@@ -70,6 +70,22 @@ as s6 is using `ENTRYPOINT` to run its `init`. Example usage can be found in
     # If you don't want to use s6, you must use CMD
     # CMD ["node", ".bin/index.js"]
 
+Building
+--------
+
+```
+./upgrade 6.1.0 4.4.4
+git push -tags
+```
+
+Run `./upgrade [version...]` to produce new `Dockerfile`s tagged with the given versions
+with and without `npm`.
+This will also manage upgrading partial versions. When the given version is the newest
+for the partial it will replace the previous version, including `latest`.
+
+Pushing to master will result in all new tags being built in [quay.io](https://qay.io).
+
+
 Caveats
 -------
 

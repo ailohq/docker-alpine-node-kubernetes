@@ -12,12 +12,16 @@ foreach my $rootversion (@ARGV) {
   foreach my $buildtype (@types) {
     my $version="${buildtype}${rootversion}";
 
+    print "\nUpdating to ${version}\n\n";
+
     system("git", "checkout", "-b", $version);
 
     system("sed", "-i", "", "s|alpine.node:6\.0\.0|alpine-node:${version}|", "Dockerfile");
     system("git", "commit", "-a", "-m", "Upgrade to ${version}");
 
     my @tags = get_tags($rootversion, $buildtype);
+
+    print "\nTagging ${version} as @tags\n\n";
 
     foreach my $tag (@tags) {
       system("git", "tag", "-a", $tag, "-m", "Upgrade to ${version}", "-f");
@@ -36,7 +40,7 @@ sub get_tags {
 
   local @existing_tags = `git tag | grep -v 'latest\|base'`;
 
-  $rootversion =~ /^(\d+)\.(\d+)/;
+  $rootversion =~ /^(\d+)\.(\d+)\.(\d+)/;
   local $major = $1;
   local $minor = $2;
   local $patch = $3;
@@ -54,16 +58,18 @@ sub get_tags {
     local $existing_patch = $3;
 
     # test version here
-    if ($major < $existing_major || $minor < $existing_minor || $patch < $existing_patch) {
+    if ($major < $existing_major) {
       $is_latest = 0;
     }
-    if ($major == $existing_major && ($minor < $existing_minor || $patch < $existing_patch)) {
+    if ($major == $existing_major && $minor < $existing_minor) {
+      $is_latest = 0;
       $is_new_major = 0;
     }
     if ($major == $existing_major && $minor == $existing_minor && $patch < $existing_patch) {
+      $is_latest = 0;
+      $is_new_major = 0;
       $is_new_minor = 0;
     }
-
   }
 
   if ($is_latest) {
