@@ -75,7 +75,7 @@ Building
 
 ```
 ./upgrade 6.1.0 4.4.4
-git push -tags
+git push --tags -f
 ```
 
 Run `./upgrade [version...]` to produce new `Dockerfile`s tagged with the given versions
