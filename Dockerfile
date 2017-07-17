@@ -5,7 +5,7 @@ FROM mhart/alpine-node:6.0.0
 ## https://github.com/janeczku/docker-alpine-kubernetes/blob/master/versions/3.3/Dockerfile
 ##
 
-ENV S6_VERSION=v1.17.1.1 GODNSMASQ_VERSION=1.0.5
+ENV S6_VERSION=v1.17.1.1 GODNSMASQ_VERSION=1.0.7
 
 RUN apk add --update wget \
 	&& wget https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-amd64.tar.gz --no-check-certificate --quiet -O /tmp/s6-overlay.tar.gz \
