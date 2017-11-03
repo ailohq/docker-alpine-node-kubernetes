@@ -15,7 +15,8 @@ for resolving service names. Versions built on [Alpine Linux](https://alpinelinu
 Tags
 ----
 * Full install built with npm:
-  * `6.2.1` `6.2` `6` `latest`
+  * `8.9.0` `8.9` `8` `latest`
+  * `6.2.1` `6.2` `6`
   * `6.1.0` `6.1` 
   * `6.0.0` `6.0`
   * `5.12.0` `5.12` `5`
@@ -38,7 +39,8 @@ Tags
   * `0.12.12`
   * `0.12.11`
 * Base install built as static binary without npm:
-  * `base-6.1.0` `base-6.1` `base-6` `base-latest`
+  * `base-8.9.0` `base-8.9` `base-8` `base-latest`
+  * `base-6.1.0` `base-6.1` `base-6`
   * `base-6.0.0` `base-6.0`
   * `base-5.11.1` `base-5.11` `base-5`
   * `base-5.11.0`
