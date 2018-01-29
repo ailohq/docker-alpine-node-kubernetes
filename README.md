@@ -15,7 +15,8 @@ for resolving service names. Versions built on [Alpine Linux](https://alpinelinu
 Tags
 ----
 * Full install built with npm:
-  * `8.9.0` `8.9` `8` `latest`
+  * `8.9.4` `8.9` `8` `latest`
+  * `8.9.0` `8.9` `8`
   * `6.2.1` `6.2` `6`
   * `6.1.0` `6.1` 
   * `6.0.0` `6.0`
@@ -39,7 +40,8 @@ Tags
   * `0.12.12`
   * `0.12.11`
 * Base install built as static binary without npm:
-  * `base-8.9.0` `base-8.9` `base-8` `base-latest`
+  * `base-8.9.4` `base-8.9` `base-8` `base-latest`
+  * `base-8.9.0` `base-8.9` `base-8`
   * `base-6.1.0` `base-6.1` `base-6`
   * `base-6.0.0` `base-6.0`
   * `base-5.11.1` `base-5.11` `base-5`
@@ -62,6 +64,8 @@ Tags
 
 Example
 -------
+    $ docker run quay.io/trunk/alpine-node-kubernetes node --version
+    v8.9.4
 
     $ docker run quay.io/trunk/alpine-node-kubernetes node --version
     v6.1.0
